@@ -3,21 +3,15 @@ const { JSDOM } = jsdom;
 const request=require('request');
 const fs=require('fs');
 
-if(process.argv.length<=2){
-    console.log("not enough arguments");
-    return;
-} 
-else{
-
+async function download (page,bookNumber)
+{
+    console.log(page);
     let web='doujinantena';
-    let bookNumber=process.argv[2];
     let dir=createDir(web,bookNumber);
-    let page=getPages(`http://doujinantena.com/page.php?id=${bookNumber}&p=1`);
-
-    page.then(function(resolve,reject){
-        console.log(resolve);
-        downloadImage(resolve.galleryNumber,resolve.pageNumber,resolve.filetype,dir);
-    });
+    for(let i=0;i<=page.pageNumber-1;i++)
+    {
+        await downloadImage(page.galleryNumber,i,page.filetype,dir);
+    }
 }
 
 //Create comic directory
@@ -76,3 +70,8 @@ function downloadImage(number,pages,type,targetDir){
         });
     }
 }
+
+module.exports={
+    download:download,
+    getPages:getPages
+};
