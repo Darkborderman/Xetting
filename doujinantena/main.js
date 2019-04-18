@@ -71,9 +71,8 @@ function downloadImage(number,pages,type,targetDir){
         //i from 1-25, type from 0-24
         let page = i.toString().padStart('3','0');
         let uri=`http://cdn.doujinantena.com/contents_jpg/${number}/${page}${type}`;
-        console.log(uri)
         request(uri).pipe(fs.createWriteStream(`${targetDir}/${page}.jpg`)).on('close',function(){
-
+            console.log(`${page} done`);
         });
     }
 }
