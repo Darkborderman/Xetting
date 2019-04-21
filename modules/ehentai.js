@@ -3,8 +3,9 @@ const jsdom=require('jsdom'),
 	request=require('request');
 const { JSDOM } = jsdom;
 
-function getImage(website){ 
-	request(website, function(error, response, body) {
+function getImages(uri){ 
+	tokens=uri.split("-");
+	request("https://e-hentai.org/g/"+uri[0]+uri[1], function(error, response, body) {
 		let {document}=(new JSDOM(body)).window;
 		let array=document.getElementById('gdt').getElementsByTagName('a');
 
@@ -29,5 +30,5 @@ if(process.argv.length<3){
 	console.log('example: node '+__filename+' https://e-hentai.org/g/618395/0439fa3666/');
 }
 else{
-	getImage(process.argv[2]);
+	getImages('1401936-9940e2b475');
 }
