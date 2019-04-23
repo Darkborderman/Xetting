@@ -7,23 +7,22 @@ const { JSDOM } = jsdom;
 const request=require('request');
 const fs=require('fs');
 
-const nhentai=require(`${directory}/nhentai.js`);
-const doujinantena=require(`${directory}/doujinantena.js`);
+const nhentai=require(`./modules/nhentai.js`);
+const doujinantena=require(`./modules/doujinantena.js`);
 
 const port=3000;
 
-server.use('/', express.static(__dirname + '/'));
+server.use(express.static('public'));
 
 server.get('/', function(req, res) {
-    console.log(nhentai.download);
-    res.sendFile(`${__dirname}/index.html`);
-
+    console.log(req);
+    res.sendFile(`${__dirname}/public/app.html`);
 });
 
 server.get('/nhentai',function(req,res){
+    console.log(req);
     let thread=2;
     let pageinfo=nhentai.getPages(`https://nhentai.net/g/${req.query.bookNumber}/`);
-
     pageinfo.then((resolve,reject)=>{
         console.log(resolve);
         let page=resolve;
