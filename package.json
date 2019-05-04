@@ -4,8 +4,10 @@
   "description": "A crawler hub of some picture hosts",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "run": "node server.js"
+    "build": "node app.js",
+    "pug": "./node_modules/.bin/pug ./static/pug/*.pug && mv ./static/pug/*.html ./dist/",
+    "scss": "./node_modules/.bin/sass ./static/scss/index.scss ./dist/index.css",
+    "preview": "./node_modules/.bin/http-server ./dist"
   },
   "repository": {
     "type": "git",
@@ -22,7 +24,11 @@
   "homepage": "https://github.com/Darkborderman/Xetting#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "http-server": "^0.11.1",
     "jsdom": "^14.0.0",
-    "request": "^2.88.0"
+    "pug": "^2.0.3",
+    "pug-cli": "^1.0.0-alpha6",
+    "request": "^2.88.0",
+    "sass": "^1.20.1"
   }
 }
