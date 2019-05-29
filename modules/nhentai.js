@@ -2,7 +2,7 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const request=require('request');
 const fs=require('fs');
-
+const jquery=require('jquery')
 
 async function download (page,bookNumber,pageStart,pageEnd)
 {
@@ -14,7 +14,7 @@ async function download (page,bookNumber,pageStart,pageEnd)
     }
 }
 
-//Create comic directory
+//Create comic directory*
 function createDir(mainDir,targetDir){
 
     if (!fs.existsSync(`./${mainDir}/`)){
@@ -33,10 +33,8 @@ function getPages(uri){
             console.log('get pages');
             let html=new JSDOM(body);
             let document=html.window.document;
-
             let pagesElement=document.getElementById('tags').nextElementSibling;
             let pagesString=pagesElement.innerHTML.split('pages');
-            //console.log(pagesString);
             let pages=parseInt(pagesString[0]);
             
             let galleryElement=document.getElementsByClassName("gallerythumb")[2].childNodes[1].attributes["data-src"].value;
@@ -45,7 +43,6 @@ function getPages(uri){
             let galleryNumber=parseInt(test);
 
             let bookName=document.getElementById("info").childNodes[3].innerText;
-            //get
             let Package={
                 galleryNumber:galleryNumber,
                 pageNumber:pages,

@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', type='text/css', href='result-component.css')
+    link(rel='stylesheet', type='text/css', href='result.css')
+  body
+    .navbar Xetting
+    .content
+      .advanced
+        div  Advanced search
+      .result
+        - var fuck = !{result};
+        while fuck < 5
+          - var componentUrl;
+          - var componentTitle;
+          include result-component.pug
+          - fuck=fuck+1
