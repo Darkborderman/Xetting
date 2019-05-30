@@ -1,17 +1,22 @@
 doctype html
 html
   head
-    link(rel='stylesheet', type='text/css', href='result-component.css')
-    link(rel='stylesheet', type='text/css', href='result.css')
+    link(rel='stylesheet', type='text/css', href='css/result-component.css')
+    link(rel='stylesheet', type='text/css', href='css/result.css')
   body
     .navbar Xetting
     .content
       .advanced
         div  Advanced search
       .result
-        - var fuck = !{result};
-        while fuck < 5
-          - var componentUrl;
-          - var componentTitle;
-          include result-component.pug
-          - fuck=fuck+1
+        - var fuck=!{result};
+        - var column=1;
+        while column<4
+          .result-row
+            - var row=fuck;
+            while row < 5
+              - var componentUrl;
+              - var componentTitle=column+row;
+              include result-component.pug
+              - row=row+1
+          - column=column+1

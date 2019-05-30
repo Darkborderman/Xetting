@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "node app.js",
-    "pug": "./node_modules/.bin/pug ./static/pug/*.pug && mv ./static/pug/*.html ./dist/",
-    "scss": "./node_modules/.bin/sass ./static/scss/index.scss ./dist/index.css",
+    "pug": "./settings/pug.sh",
+    "scss": "./settings/scss.sh",
     "preview": "./node_modules/.bin/http-server ./dist"
   },
   "repository": {

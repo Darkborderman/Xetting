@@ -2,7 +2,9 @@ doctype html
 html(lang='en')
   head
     title Xetting
-    link(rel='stylesheet', type='text/css', href='index.css')
+    link(rel='stylesheet', type='text/css', href='css/index.css')
   body
     h1.logo Xetting
-    input(type='text')
+    form(action="result", method="get")
+      input(type='text')
+      button(type="submit") Go
