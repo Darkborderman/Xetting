@@ -14,18 +14,19 @@ function search(input,begin,end){
 		begin%=nhentaiPageListMax;
 		end%=nhentaiPageListMax;
 		let url="https://nhentai.net/search/?q="+encodeURI(input);
-		if(beginPage==endPage) await search_page(url,beginPage,begin,end);
+		if(beginPage==endPage) result=result.concat(await searchPage(url,beginPage,begin,end));
 		else{
-			result=result.concat(await search_page(url,beginPage,begin,nhentaiPageListMax-1));
+			result=result.concat(await searchPage(url,beginPage,begin,nhentaiPageListMax-1));
 			for(let i=beginPage+1;i<endPage;++i)
-				result=result.concat(await search_page(url,i,0,nhentaiPageListMax-1));
-			result=result.concat(await search_page(url,endPage,0,end));
+				result=result.concat(await searchPage(url,i,0,nhentaiPageListMax-1));
+			result=result.concat(await searchPage(url,endPage,0,end));
 		}
+		console.log(result);
 		resolve(result);
 	});
 }
 
-function search_page(url,page,begin,end){
+function searchPage(url,page,begin,end){
 	url=url+"&page="+page;
 	return new Promise((resolve, reject) => {
 		request(url,function(err,res,body){
@@ -45,11 +46,7 @@ function search_page(url,page,begin,end){
 				});
 			}
 			resolve(result);
+			//return result;
 		});
 	});
 }
-/*
-(async function (){
-	console.log(await search("test",20,50));
-}());
-*/
