@@ -14,6 +14,7 @@ function search(input,begin,end){
 		begin%=nhentaiPageListMax;
 		end%=nhentaiPageListMax;
 		let url="https://nhentai.net/search/?q="+encodeURI(input);
+
 		if(beginPage==endPage) result=result.concat(await searchPage(url,beginPage,begin,end));
 		else{
 			result=result.concat(await searchPage(url,beginPage,begin,nhentaiPageListMax-1));
@@ -35,15 +36,16 @@ function searchPage(url,page,begin,end){
 			let document = window.window;
 			let $ = jQuery = require('jquery')(window);
 
-			for(let i=begin;i<=end;++i){
-
-				let g=$('.index-container')[0].children[i].children[0];
-				result.push({
-					"source":"nhentai",
-					"booknumber":g.href.split("/")[2],
-					"thumbnail":g.firstChild.src,
-					"title":g.lastChild.textContent
-				});
+			if($('.index-container')[0]!==undefined){
+				for(let i=begin;i<=end;++i){
+					let g=$('.index-container')[0].children[i].children[0];
+					result.push({
+						"source":"nhentai",
+						"booknumber":g.href.split("/")[2],
+						"thumbnail":g.firstChild.src,
+						"title":g.lastChild.textContent
+					});
+				}
 			}
 			resolve(result);
 			//return result;
