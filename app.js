@@ -12,11 +12,18 @@ const doujinantena=require(`./modules/doujinantena.js`);
 
 const port=3000;
 
-server.use(express.static('public'));
+server.set("view engine", "pug");
+server.use(express.static('dist'));
 
 server.get('/', function(req, res) {
     console.log(req);
-    res.sendFile(`${__dirname}/public/app.html`);
+    res.sendFile(`${__dirname}/dist/test.html`);
+});
+
+server.get('/result',function(req,res){
+    res.render(`${__dirname}/dist/result.pug`,{
+        result:3,
+    });
 });
 
 server.get('/nhentai',function(req,res){
