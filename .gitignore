@@ -1,5 +1,6 @@
 /node_modules/
 /**/.directory
+/**/.swp
 /dist/css/*.css
 /dist/css/*.map
 /dist/pug/*.pug

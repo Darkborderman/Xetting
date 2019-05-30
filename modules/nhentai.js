@@ -1,84 +1,55 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const request=require('request');
-const fs=require('fs');
-const jquery=require('jquery')
 
-async function download (page,bookNumber,pageStart,pageEnd)
-{
-    let web='nhentai';
-    let dir=createDir(web,bookNumber);
-    for(let i=pageStart;i<=pageEnd;i++)
-    {
-        await downloadImage(page.galleryNumber,i,page.filetype,dir);
-    }
+const request = require('request');
+
+const nhentaiPageListMax = 25;
+
+function search(input,begin,end){
+	let result=[];
+	input.split(' ').join('+');
+	return new Promise(async (resolve, reject) => {
+		let beginPage=Math.floor(begin/nhentaiPageListMax+1),
+			endPage=Math.floor(end/nhentaiPageListMax+1);
+		begin%=nhentaiPageListMax;
+		end%=nhentaiPageListMax;
+		let url="https://nhentai.net/search/?q="+encodeURI(input);
+		if(beginPage==endPage) await search_page(url,beginPage,begin,end);
+		else{
+			result=result.concat(await search_page(url,beginPage,begin,nhentaiPageListMax-1));
+			for(let i=beginPage+1;i<endPage;++i)
+				result=result.concat(await search_page(url,i,0,nhentaiPageListMax-1));
+			result=result.concat(await search_page(url,endPage,0,end));
+		}
+		resolve(result);
+	});
 }
 
-//Create comic directory*
-function createDir(mainDir,targetDir){
+function search_page(url,page,begin,end){
+	url=url+"&page="+page;
+	return new Promise((resolve, reject) => {
+		request(url,function(err,res,body){
+			let result=[];
+			let {window} = new JSDOM(body);
+			let document = window.window;
+			let $ = jQuery = require('jquery')(window);
 
-    if (!fs.existsSync(`./${mainDir}/`)){
-        fs.mkdirSync(`./${mainDir}/`);
-    }
-    if (!fs.existsSync(`./${mainDir}/${targetDir}/`)){
-        fs.mkdirSync(`./${mainDir}/${targetDir}/`);
-    }
-    return `./${mainDir}/${targetDir}`;
+			for(let i=begin;i<=end;++i){
+
+				let g=$('.index-container')[0].children[i].children[0];
+				result.push({
+					"source":"nhentai",
+					"booknumber":g.href.split("/")[2],
+					"thumbnail":g.firstChild.src,
+					"title":g.lastChild.textContent
+				});
+			}
+			resolve(result);
+		});
+	});
 }
-
-function getPages(uri){
-    return new Promise(function(resolve,reject){
-        request(uri, function(err, res, body){
-
-            console.log('get pages');
-            let html=new JSDOM(body);
-            let document=html.window.document;
-            let pagesElement=document.getElementById('tags').nextElementSibling;
-            let pagesString=pagesElement.innerHTML.split('pages');
-            let pages=parseInt(pagesString[0]);
-            
-            let galleryElement=document.getElementsByClassName("gallerythumb")[2].childNodes[1].attributes["data-src"].value;
-            let test=galleryElement.split('galleries/')[1];
-            test=test.split('/')[0];
-            let galleryNumber=parseInt(test);
-
-            let bookName=document.getElementById("info").childNodes[3].innerText;
-            let Package={
-                galleryNumber:galleryNumber,
-                pageNumber:pages,
-                filetype:[],
-            };
-
-            let galleryElementArray=document.getElementsByClassName("gallerythumb");
-            
-            for(let i=0;i<=pages-1;i++)
-            {
-                let element=galleryElementArray[i].childNodes[1].attributes["data-src"].value;
-                element.split('.');
-                Package.filetype[i]=element.split('.')[3];
-            }
-
-            resolve(Package);
-        });
-    });
-}
-
-async function downloadImage(number,i,type,targetDir){
-
-    let uri=`https://i.nhentai.net/galleries/${number}/${i}.${type[i-1]}`;
-
-    const res=await request(uri).pipe(fs.createWriteStream(`${targetDir}/${i}.jpg`));
-    
-
-    return new Promise((resolve,reject)=>{
-        res.on(`close`,()=>{
-            console.log(`${i} done`);
-            resolve(`done`);
-        });
-    });
-}
-
-module.exports={
-    download:download,
-    getPages:getPages
-};
+/*
+(async function (){
+	console.log(await search("test",20,50));
+}());
+*/
