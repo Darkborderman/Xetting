@@ -4,3 +4,5 @@
 /dist/css/*.css
 /dist/css/*.map
 /dist/pug/*.pug
+
+*.log

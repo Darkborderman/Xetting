@@ -56,20 +56,23 @@ server.get('/result',async function(req,res){
 server.get('/detail',async function(req,res){
     console.log(req.query.source);
     console.log(req.query.booknumber);
-    let title = ''; //string
-    let artist = []; //string array, may have mutiple artists.
-    let time = ''; //string, currently not used
-    let tags = []; //string
-    let images = []; //string, suppose to be a url
-    let thumbnails = []; //string, suppose to be a url
-    res.render('pug/detail.pug',{
-        title:title,
-        artist:artist,
-        time:time,
-        tags:tags,
-        images:images,
-        thumbnails:thumbnails
-    });
+    let result = await nhentai.getBook(req.query.booknumber);
+    console.log(result);
+    if(result === undefined) {
+        res.writeHead(404, {"Content-Type": "text/plain"});
+        res.write("Oops, there might be something wrong.");
+        res.end();
+    }
+    else {
+        res.render('pug/detail.pug',{
+            title:result.title,
+            artists:result.artists,
+            time:result.time,
+            tags:result.tags,
+            thumbnails:result.thumbnails,
+            originUrl:result.originUrl
+        });
+    }
 });
 
 server.listen(port);
