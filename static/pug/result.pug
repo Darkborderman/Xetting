@@ -8,6 +8,14 @@ html
     .content
       .advanced
         div  Advanced search
+          form(action="result", method="get")
+            div bookname
+              input(type='text' name='query')
+            div source
+              input(type='text' name='source')
+            div page
+              input(type='text' name='page')
+            button(type="submit") Go
       .result
         - var fuck=!{result};
         - var column=1;
