@@ -5,6 +5,7 @@ const request = require('request');
 
 const nhentaiPageListMax = 25;
 const nhentaiBaseURL = "https://nhentai.net";
+const nhentaiGalleryURL = "https://i.nhentai.net/galleries/";
 
 function search(input,begin,end){
 	let result=[];
@@ -61,11 +62,11 @@ function getBook(id){
 	return new Promise((resolve, reject) => {
 		request(url,function(err,res,body){
 			//init jquery
-			let result=[];
 			let {window} = new JSDOM(body);
 			let $ = jQuery = require('jquery')(window);
 
-			if($('#thumbnail-container')[0]!==undefined){
+			let container=$('#thumbnail-container')[0];
+			if(container!==undefined){
 				//get artist
 				let artists=[];
 				let artistsTag=$('#tags')[0].children[3].children[0].children;
@@ -79,10 +80,9 @@ function getBook(id){
 
 				//get thumbnails and images
 				let thumbnails=[];
-				let thumbnailsTag=$('#thumbnail-container')[0].children;
+				let thumbnailsTag=container.children;
 				for(let i=0;i<thumbnailsTag.length;++i){
 					let element=thumbnailsTag[i].children[0];
-					//images.push(nhentaiBaseURL+element.href);
 					thumbnails.push(element.firstElementChild.getAttribute("data-src"));
 				};
 				resolve({
@@ -100,10 +100,38 @@ function getBook(id){
 	});
 }
 
+function downloadBook(id){
+	url=nhentaiBaseURL+"/g/"+id;
+	return new Promise((resolve, reject) => {
+		request(url,function(err,res,body){
+			//init jquery
+			let result=[];
+			let {window} = new JSDOM(body);
+			let $ = jQuery = require('jquery')(window);
+
+			let container=$('#thumbnail-container')[0];
+			if(container!==undefined){
+				let thumbnailsTag=container.children;
+				for(let i=0;i<thumbnailsTag.length;++i){
+					//get the correspond thumbnails image url
+					let thumbUrl=thumbnailsTag[i]
+						.children[0]
+						.firstElementChild
+						.getAttribute("data-src");
+					let filetype=thumbUrl.substring(thumbUrl.lastIndexOf('.'));
+					let galleryId=thumbUrl.split("/")[4];
+					result.push(nhentaiGalleryURL+galleryId+"/"+(i+1)+filetype);
+				}
+				resolve(result);
+			}
+			else resolve(undefined);
+		});
+	});
+}
 
 module.exports={
 	search:search,
 	getBook:getBook,
+	downloadBook:downloadBook
 };
-
 
