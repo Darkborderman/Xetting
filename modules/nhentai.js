@@ -4,6 +4,7 @@ const { JSDOM } = jsdom;
 const request = require('request');
 
 const nhentaiPageListMax = 25;
+const nhentaiBaseURL = "https://nhentai.net";
 
 function search(input,begin,end){
 	let result=[];
@@ -14,7 +15,7 @@ function search(input,begin,end){
 			endPage=Math.floor(end/nhentaiPageListMax+1);
 		begin%=nhentaiPageListMax;
 		end%=nhentaiPageListMax;
-		let url="https://nhentai.net/search/?q="+encodeURI(input);
+		let url=nhentaiBaseURL+"/search/?q="+encodeURI(input);
 
 		//search and combine result
 		if(beginPage==endPage) result=result.concat(await searchPage(url,beginPage,begin,end));
@@ -54,18 +55,32 @@ function searchPage(url,page,begin,end){
 	});
 }
 function getBook(id){
-	
+	url=nhentaiBaseURL+"/g/"+id;
+	return new Promise((resolve, reject) => {
+		request(url,function(err,res,body){
+			//init jquery
+			let result=[];
+			let {window} = new JSDOM(body);
+			
+			//get artist
+			let artists=[];
+			$('#tags')[0].children[3].children[0].children.forEach(function(element){
+				artists.push(element.childNodes[0].nodeValue);
+			});
+
+			resolve({
+				"title":$("#info h2")[0].textContent,
+				"artists":artists,
+				"time":"",
+			})
+		});
+	});
 }
 
-//code test area
-/*
-(async function (){
-	console.log(await search("test",20,50));
-}());
-*/
 
 module.exports={
-	search:search
+	search:search,
+	getBook:getBook
 };
 
 
