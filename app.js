@@ -29,13 +29,22 @@ server.get('/result',async function(req,res){
     console.log(req.query.query);
     console.log(req.query.source);
     console.log(req.query.page);
-    if(req.query.page < 1) {
+    if(req.query.source === undefined) req.query.source = 'nhentai';
+    if(req.query.page < 1 | req.query.page === undefined) {
         req.query.page = 1;
     }
     let querypage = nhentaiPageListMax*(req.query.page - 1);
     let resultLength = 15;
     let result = await nhentai.search(req.query.query, querypage, querypage+resultLength);
-    console.log(result);
+    //console.log(result);
+    let temp = [];
+    let row = 5; //slice result into several rows
+    let timeSliced = Math.ceil(resultLength/row);
+    for(i = 0; i < timeSliced; i++){
+        temp.push(result.slice(row*i, row*(i+1)));
+    }
+    console.log(temp);
+    result = temp;
     res.render('pug/result.pug',{
         result:result
     });
@@ -45,7 +54,7 @@ server.get('/detail',async function(req,res){
     console.log(req.query.source);
     console.log(req.query.booknumber);
     let title = ''; //string
-    let artist = ''; //string
+    let artist = []; //string array, may have mutiple artists.
     let time = ''; //string, currently not used
     let tags = []; //string
     let images = []; //string, suppose to be a url
