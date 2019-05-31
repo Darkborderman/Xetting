@@ -29,10 +29,13 @@ server.get('/result',async function(req,res){
     console.log(req.query.query);
     console.log(req.query.source);
     console.log(req.query.page);
+    req.query.source= req.query.source == undefined ? "nhentai": req.query.source;
+    req.query.page= req.query.page == undefined ? 1 : req.query.page;
     if(req.query.page < 1) {
         req.query.page = 1;
     }
     let querypage = nhentaiPageListMax*(req.query.page - 1);
+    console.log(querypage);
     let resultLength = 15;
     let result = await nhentai.search(req.query.query, querypage, querypage+resultLength);
     console.log(result);
