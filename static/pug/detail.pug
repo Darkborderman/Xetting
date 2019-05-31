@@ -7,16 +7,17 @@ html
     .content
       .sidebar
       .detail
+        - var r=result;
         .description
           .description-image
           img(src='aaa', width='240px')
           .description-text
-            .text-title Title
-            .text-artist Artist
-            .text-time Time 
+            .text-title=r.title
+            .text-artist a
+            .text-time None 
             .text-tag Tag A,B,c
         .images
-          - var fuck=1;
+          - var fuck=;
           - var column=1;
           while column<10
             .images-row
