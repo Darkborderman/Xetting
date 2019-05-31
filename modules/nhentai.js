@@ -40,13 +40,15 @@ function searchPage(url,page,begin,end){
 
 			//get books info one by one
 			if($('.index-container')[0]!==undefined){
+				let books=$('.index-container')[0].children;
 				for(let i=begin;i<=end;++i){
-					let g=$('.index-container')[0].children[i].children[0];
+					if(i>=books.length) break;
+					let book=books[i].children[0];
 					result.push({
 						"source":"nhentai",
-						"booknumber":g.href.split("/")[2],
-						"thumbnail":g.firstChild.getAttribute("data-src"),
-						"title":g.lastChild.textContent
+						"booknumber":book.href.split("/")[2],
+						"thumbnail":book.firstChild.getAttribute("data-src"),
+						"title":book.lastChild.textContent
 					});
 				}
 			}
@@ -61,18 +63,39 @@ function getBook(id){
 			//init jquery
 			let result=[];
 			let {window} = new JSDOM(body);
-			
-			//get artist
-			let artists=[];
-			$('#tags')[0].children[3].children[0].children.forEach(function(element){
-				artists.push(element.childNodes[0].nodeValue);
-			});
+			let $ = jQuery = require('jquery')(window);
 
-			resolve({
-				"title":$("#info h2")[0].textContent,
-				"artists":artists,
-				"time":"",
-			})
+			if($('#thumbnail-container')[0]!==undefined){
+				//get artist
+				let artists=[];
+				let artistsTag=$('#tags')[0].children[3].children[0].children;
+				for(let i=0;i<artistsTag.length;++i)
+					artists.push(artistsTag[i].childNodes[0].nodeValue);
+				//get tags
+				let tags=[];
+				let tagsTag=$('#tags')[0].children[2].children[0].children;
+				for(let i=0;i<tagsTag.length;++i)
+					tags.push(tagsTag[i].childNodes[0].nodeValue);
+
+				//get thumbnails and images
+				let thumbnails=[];
+				let thumbnailsTag=$('#thumbnail-container')[0].children;
+				for(let i=0;i<thumbnailsTag.length;++i){
+					let element=thumbnailsTag[i].children[0];
+					//images.push(nhentaiBaseURL+element.href);
+					thumbnails.push(element.firstElementChild.getAttribute("data-src"));
+				};
+				resolve({
+					"title":$("#info h1")[0].textContent,
+					"artists":artists,
+					"time":$('time')[0].textContent,
+					"tags":tags,
+					//"images":images,
+					"thumbnails":thumbnails,
+					"origionUrl":url
+				});
+			}
+			else resolve(undefined);
 		});
 	});
 }
@@ -80,7 +103,7 @@ function getBook(id){
 
 module.exports={
 	search:search,
-	getBook:getBook
+	getBook:getBook,
 };
 
 
