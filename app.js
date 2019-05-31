@@ -9,7 +9,6 @@ const request=require('request');
 const fs=require('fs');
 
 const nhentai=require(`./modules/nhentai.js`);
-const doujinantena=require(`./modules/doujinantena.js`);
 
 const port=3000;
 
