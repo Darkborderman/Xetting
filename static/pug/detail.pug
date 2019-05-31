@@ -7,25 +7,22 @@ html
     .content
       .sidebar
       .detail
-        - var r=result;
         .description
           .description-image
-          img(src='aaa', width='240px')
+          img(src=thumbnails[0], width='240px')
           .description-text
-            .text-title=r.title
-            .text-artist a
-            .text-time None 
-            .text-tag Tag A,B,c
+            .text-title Title:#{title}
+            .text-artist Artist
+            - var a=artists;
+            each artist in a
+              span #{artist}
+            .text-tag Tag
+            - var t=tags;
+            each tag in t
+              span #{tag}
+            .text-url Origin URL: #{originUrl}
         .images
-          - var fuck=;
-          - var column=1;
-          while column<10
-            .images-row
-              - var row=fuck;
-              while row < 5
-                - var componentUrl;
-                - var componentTitle=column+row;
-                img(src='aaa', width='240px')
-                - row=row+1
-            - column=column+1
+          - var i=thumbnails;
+          each thumbnail in i
+           img(src=thumbnail, width='240px')
       .sidebar

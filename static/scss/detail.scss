@@ -58,7 +58,8 @@ html,body{
 }
 .images{
     display:flex;
-    flex-direction:column;
+    flex-direction:row;
+    flex-wrap: wrap;
 }
 .images-row{
     display:flex;
