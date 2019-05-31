@@ -15,11 +15,12 @@ html
         - var r=result;
         - var row=5;
         - var rowCount=1;
-          .result-row
-            each value,index in r
-              - var componentSource=value.source;
-              - var componentBooknumber=value.booknumber;
-              - var componentUrl=value.thumbnail;
-              - var componentTitle=value.title;
-              include result-component.pug
+          each rowArray in r
+            .result-row
+              each value,index in rowArray
+                - var componentSource=value.source;
+                - var componentBooknumber=value.booknumber;
+                - var componentUrl=value.thumbnail;
+                - var componentTitle=value.title;
+                include result-component.pug
       .sidebar
