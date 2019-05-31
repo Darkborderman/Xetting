@@ -44,7 +44,7 @@ function searchPage(url,page,begin,end){
 					result.push({
 						"source":"nhentai",
 						"booknumber":g.href.split("/")[2],
-						"thumbnail":g.firstChild.src,
+						"thumbnail":g.firstChild.getAttribute("data-src"),
 						"title":g.lastChild.textContent
 					});
 				}
@@ -53,6 +53,19 @@ function searchPage(url,page,begin,end){
 		});
 	});
 }
+function getBook(id){
+	
+}
+
+//code test area
+/*
+(async function (){
+	console.log(await search("test",20,50));
+}());
+*/
+
 module.exports={
 	search:search
-}
+};
+
+
