@@ -1,6 +1,7 @@
 doctype html
 html
   head
+    link(rel='stylesheet', type='text/css', href='css/detail.css')
   body
     .navbar Xetting
     .content
@@ -8,12 +9,22 @@ html
       .detail
         .description
           .description-image
-          img(src='', width='240px')
+          img(src='aaa', width='240px')
           .description-text
-            .text-title
-            .text-artist
-            .text-time
-            .text-tag
+            .text-title Title
+            .text-artist Artist
+            .text-time Time 
+            .text-tag Tag A,B,c
         .images
-          // image section use pug
+          - var fuck=1;
+          - var column=1;
+          while column<10
+            .images-row
+              - var row=fuck;
+              while row < 5
+                - var componentUrl;
+                - var componentTitle=column+row;
+                img(src='aaa', width='240px')
+                - row=row+1
+            - column=column+1
       .sidebar
