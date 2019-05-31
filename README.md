@@ -1,12 +1,16 @@
 # Xetting
 
-## Install
+## Installation & environment
 
-`npm install`
+Develop and run server on Linux based OS.
+
+Make sure you have nodejs and npm.
+
+To install required modules, run `npm install` in command line.
 
 ## Scripts
 
-`npm run build` 執行build server
+`npm run build` 執行build server(have to run `pug` and `scss` first)
 
 `npm run pug`  編譯pug成html 
 
