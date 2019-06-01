@@ -4,7 +4,7 @@
   "description": "A crawler hub of some picture hosts",
   "main": "index.js",
   "scripts": {
-    "build": "node app.js",
+    "build": "./settings/pug.sh & ./settings/scss.sh & node app.js",
     "pug": "./settings/pug.sh",
     "scss": "./settings/scss.sh",
     "preview": "./node_modules/.bin/http-server ./dist"

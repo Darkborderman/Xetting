@@ -11,6 +11,7 @@ const fs=require('fs');
 const nhentaiPageListMax = 25;
 
 const nhentai=require(`./modules/nhentai.js`);
+const { Crawler }=require('./modules/crawlerController.js');
 
 const port=3000;
 
@@ -73,6 +74,16 @@ server.get('/detail',async function(req,res){
             originUrl:result.originUrl
         });
     }
+});
+
+server.get('/api/download',async function(req,res){
+    let source=req.query.source;
+    let bookNumber=req.query.bookNumber;
+    console.log(source);
+    console.log(bookNumber);
+    let result=await Crawler.nhentai.downloadBook(parseInt(bookNumber));
+    console.log(result);
+    res.json(result);
 });
 
 server.listen(port);
