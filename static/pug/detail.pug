@@ -2,6 +2,9 @@ doctype html
 html
   head
     link(rel='stylesheet', type='text/css', href='css/detail.css')
+    script(defer src='js/jszip.min.js')
+    script(defer src='js/FileSaver.min.js')
+    script(defer src='js/index.js')
   body
     .navbar Xetting
     .content
@@ -12,7 +15,7 @@ html
           img(src=thumbnails[0], width='240px')
           .description-text
             .text-title Title:#{title}
-            .text-artist Artist
+            .text-artist Artists
             - var a=artists;
             each artist in a
               span #{artist}
@@ -21,6 +24,7 @@ html
             each tag in t
               span #{tag}
             .text-url Origin URL: #{originUrl}
+            .download(id="download") Download me
         .images
           - var i=thumbnails;
           each thumbnail in i

@@ -31,44 +31,33 @@ server.get('/result',async function(req,res){
     console.log(req.query.source);
     console.log(req.query.page);
 
-    let query = req.query.query;
-    if (query === undefined) {
-        res.writeHead(405, {"Content-Type": "text/plain"});
-        res.write("405 Method Not Allowed.");
-        res.end();
+    req.query.source= req.query.source == undefined ? "nhentai": req.query.source;
+    req.query.page= req.query.page == undefined ? 1 : req.query.page;
+    if(req.query.page < 1) {
+        req.query.page = 1;
     }
-    else {
-        let source = (req.query.source == undefined ? "nhentai": req.query.source);
-        let page = (req.query.page == undefined ? 1 : req.query.page);
-        if(page < 1) {
-            page = 1;
-        }
-        let querypage = nhentaiPageListMax*(page - 1);
-        console.log(querypage);
-        let resultLength = 15;
-        let result = await Crawler[source].search(query, querypage, querypage+resultLength);
-        //console.log(result);
-        let temp = [];
-        let row = 5; //slice result into several rows
-        let timeSliced = Math.ceil(resultLength/row);
-        for(i = 0; i < timeSliced; i++){
-            temp.push(result.slice(row*i, row*(i+1)));
-        }
-        console.log(temp);
-        result = temp;
-        res.render('pug/result.pug',{
-            result:result
-        });
+    let querypage = nhentaiPageListMax*(req.query.page - 1);
+    console.log(querypage);
+    let resultLength = 15;
+    let result = await nhentai.search(req.query.query, querypage, querypage+resultLength);
+    //console.log(result);
+    let temp = [];
+    let row = 5; //slice result into several rows
+    let timeSliced = Math.ceil(resultLength/row);
+    for(i = 0; i < timeSliced; i++){
+        temp.push(result.slice(row*i, row*(i+1)));
     }
-    
+    console.log(temp);
+    result = temp;
+    res.render('pug/result.pug',{
+        result:result
+    });
 });
 
 server.get('/detail',async function(req,res){
     console.log(req.query.source);
     console.log(req.query.booknumber);
-    let source = req.query.source;
-    let booknumber = req.query.booknumber;
-    let result = await Crawler[source].bookDetail(booknumber);
+    let result = await nhentai.getBook(req.query.booknumber);
     console.log(result);
     if(result === undefined) {
         res.writeHead(404, {"Content-Type": "text/plain"});
@@ -82,9 +71,7 @@ server.get('/detail',async function(req,res){
             time:result.time,
             tags:result.tags,
             thumbnails:result.thumbnails,
-            originUrl:result.originUrl,
-            source:source,
-            booknumber:booknumber
+            originUrl:result.originUrl
         });
     }
 });
