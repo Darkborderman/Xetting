@@ -3,7 +3,8 @@ const nhentai=require(`./nhentai.js`);
 const Crawler={
 	nhentai:{
 		search:nhentai.search,
-		bookDetail:nhentai.getBook
+		bookDetail:nhentai.getBook,
+		downloadBook:nhentai.downloadBook
 	}
 };
 
@@ -12,7 +13,7 @@ const Crawler={
 /*
 (async function (){
 	//console.log(await search("test",20,50));
-	console.log(await Crawler.nhentai.bookDetail(273908));
+	console.log(await Crawler.nhentai.downloadBook(273908));
 }());
 search:function(input,begin,end,option){
 	return new Promise(async (resolve, reject) => {
