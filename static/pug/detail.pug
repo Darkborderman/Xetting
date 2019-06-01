@@ -2,6 +2,9 @@ doctype html
 html
   head
     link(rel='stylesheet', type='text/css', href='css/detail.css')
+    script(defer src='js/jszip.min.js')
+    script(defer src='js/FileSaver.min.js')
+    script(defer src='js/index.js')
   body
     .navbar Xetting
     .content
@@ -9,22 +12,21 @@ html
       .detail
         .description
           .description-image
-          img(src='aaa', width='240px')
+          img(src=thumbnails[0], width='240px')
           .description-text
-            .text-title Title
-            .text-artist Artist
-            .text-time Time 
-            .text-tag Tag A,B,c
+            .text-title Title:#{title}
+            .text-artist Artists
+            - var a=artists;
+            each artist in a
+              span #{artist}
+            .text-tag Tag
+            - var t=tags;
+            each tag in t
+              span #{tag}
+            .text-url Origin URL: #{originUrl}
+            .download(id="download") Download me
         .images
-          - var fuck=1;
-          - var column=1;
-          while column<10
-            .images-row
-              - var row=fuck;
-              while row < 5
-                - var componentUrl;
-                - var componentTitle=column+row;
-                img(src='aaa', width='240px')
-                - row=row+1
-            - column=column+1
+          - var i=thumbnails;
+          each thumbnail in i
+           img(src=thumbnail, width='240px')
       .sidebar

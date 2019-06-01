@@ -6,17 +6,21 @@ html
   body
     .navbar Xetting
     .content
-      .advanced
-        div  Advanced search
+      .sidebar
       .result
-        - var fuck=!{result};
-        - var column=1;
-        while column<4
-          .result-row
-            - var row=fuck;
-            while row < 5
-              - var componentUrl;
-              - var componentTitle=column+row;
-              include result-component.pug
-              - row=row+1
-          - column=column+1
+        .advanced
+          form(action="result", method="get")
+            input(type="text" name="query") 
+            button(type="submit") Go
+        - var r=result;
+        - var row=5;
+        - var rowCount=1;
+          each rowArray in r
+            .result-row
+              each value,index in rowArray
+                - var componentSource=value.source;
+                - var componentBooknumber=value.booknumber;
+                - var componentUrl=value.thumbnail;
+                - var componentTitle=value.title;
+                include result-component.pug
+      .sidebar

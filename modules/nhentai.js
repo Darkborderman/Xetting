@@ -92,7 +92,7 @@ function getBook(id){
 					"tags":tags,
 					//"images":images,
 					"thumbnails":thumbnails,
-					"origionUrl":url
+					"originUrl":url
 				});
 			}
 			else resolve(undefined);

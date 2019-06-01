@@ -2,9 +2,10 @@ doctype html
 html(lang='en')
   head
     title Xetting
+    script(defer src='js/index.js')
     link(rel='stylesheet', type='text/css', href='css/index.css')
   body
     h1.logo Xetting
     form(action="result", method="get")
-      input(type='text')
+      input(type='text',name='query')
       button(type="submit") Go
