@@ -3,24 +3,27 @@ html
   head
     link(rel='stylesheet', type='text/css', href='css/result-component.css')
     link(rel='stylesheet', type='text/css', href='css/result.css')
+    script(defer src="js/result.js")
   body
     .navbar Xetting
     .content
       .sidebar
-      .result
+
+      .display
         .advanced
           form(action="result", method="get")
             input(type="text" name="query") 
             button(type="submit") Go
-        - var r=result;
-        - var row=5;
-        - var rowCount=1;
-          each rowArray in r
-            .result-row
-              each value,index in rowArray
-                - var componentSource=value.source;
-                - var componentBooknumber=value.booknumber;
-                - var componentUrl=value.thumbnail;
-                - var componentTitle=value.title;
+        .result
+          - var r=result;
+            each value in r
+              - var componentSource=value.source;
+              - var componentBooknumber=value.booknumber;
+              - var componentUrl=value.thumbnail;
+              - var componentTitle=value.title;
                 include result-component.pug
+        .pages
+          div(id="prev") Prev
+          div ......
+          div(id="next") Next
       .sidebar

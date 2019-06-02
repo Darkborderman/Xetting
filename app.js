@@ -40,16 +40,8 @@ server.get('/result',async function(req,res){
     let querypage = nhentaiPageListMax*(req.query.page - 1);
     console.log(querypage);
     let resultLength = 15;
-    let result = await nhentai.search(req.query.query, querypage, querypage+resultLength);
-    //console.log(result);
-    let temp = [];
-    let row = 5; //slice result into several rows
-    let timeSliced = Math.ceil(resultLength/row);
-    for(i = 0; i < timeSliced; i++){
-        temp.push(result.slice(row*i, row*(i+1)));
-    }
-    console.log(temp);
-    result = temp;
+    let result = await nhentai.search(req.query.query, querypage, querypage+resultLength-1);
+    console.log(result);
     res.render('pug/result.pug',{
         result:result
     });

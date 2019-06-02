@@ -5,14 +5,16 @@ html,body{
     background-color:black;
 }
 .navbar{
-    border-color:whitesmoke;
-    border-style:solid;
+    border: 1px solid #AAAAAA;
+    border-top:0px;
+    border-right:0px;
+    border-left:0px;
+
     font-size:20px;
     padding:10px;
     color:white;
-    border-radius:5px;
 
-    background-color:transparent;
+    background-color:#303030;
     height:5vh;
     line-height: 5vh;
 }
@@ -25,6 +27,7 @@ html,body{
     flex-direction: row;
     width:100%;
     height:auto;
+    margin-top:2vh;
     background-color:transparent;
 }
 .detail{
@@ -42,32 +45,33 @@ html,body{
     display:flex;
     flex-direction:row;
     min-height:30vh;
-    border-color:whitesmoke;
-    border-style:solid;
+    border: 1px solid whitesmoke;
     width:100%;
 }
 .description-text{
+    margin-left:1vw;
     display:flex;
     flex-direction: column;
-    justify-content: space-between;
-}
-.result-row{
-    display:flex;
-    flex-direction:row;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .images{
     display:flex;
     flex-direction:row;
     flex-wrap: wrap;
+    justify-content: left;
+    padding-left:1vw;
+    padding-right:1vw;
 }
-.images-row{
-    display:flex;
-    flex-direction:row;
-    justify-content: space-between;
-    margin-top:2vh;
-
+.image{
+    margin-top:1vh;
+    margin-left:3vw;
 }
 img{
     width:240px;
+}
+.text-artist,.text-tag{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content: start;
 }

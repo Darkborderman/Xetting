@@ -41,7 +41,7 @@ html,body{
     border-radius:5px;
     color:white;
 }
-.result{
+.display{
     display:flex;
     flex-direction:column;
     width:80%;
@@ -51,8 +51,16 @@ html,body{
     padding-right:1%;
     color:white;
 }
-.result-row{
+.result{
     display:flex;
     flex-direction:row;
+    flex-wrap: wrap;
     justify-content: space-between;
+}
+.pages{
+    margin-top:4vh;
+    display:flex;
+    flex-direction:row;
+    width:100%;
+    justify-content: center;
 }
