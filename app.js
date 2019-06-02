@@ -12,6 +12,7 @@ const nhentaiPageListMax = 25;
 
 const nhentai=require(`./modules/nhentai.js`);
 const { Crawler }=require('./modules/crawlerController.js');
+const { Logo }= require('./modules/Logo.js');
 
 const port=3000;
 
@@ -84,6 +85,13 @@ server.get('/api/download',async function(req,res){
     let result=await Crawler.nhentai.downloadBook(parseInt(bookNumber));
     console.log(result);
     res.json(result);
+});
+
+server.get('/api/',async function(req,res){
+    
+    let logo=Logo[Math.floor(Math.random()*2)];
+    let slogan=`Xetting-Crawler of some image host sites`;
+    res.status(200).send(logo+'\n'+slogan+'\n');
 });
 
 server.listen(port);
