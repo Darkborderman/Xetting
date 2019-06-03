@@ -36,10 +36,11 @@ html,body{
     flex-direction:column;
     border-color:whitesmoke;
     border-style:solid;
-    width:20%;
+    width:100%;
     background-color:transparent;
     border-radius:5px;
     color:white;
+    align-items: center;
 }
 .display{
     display:flex;
