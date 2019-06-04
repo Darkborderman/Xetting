@@ -1,5 +1,6 @@
 const nhentai=require(`./nhentai.js`);
 const ehentai=require(`./ehentai.js`);
+const doujinantena=require(`./doujinantena.js`);
 
 const Crawler={
 	nhentai:{
@@ -11,6 +12,11 @@ const Crawler={
 		search:ehentai.search,
 		bookDetail:ehentai.getBook,
 		downloadBook:ehentai.downloadBook
+	},
+	doujinantena:{
+		search:doujinantena.search,
+		bookDetail:doujinantena.getBook,
+		downloadBook:doujinantena.downloadBook
 	}
 };
 
@@ -19,7 +25,7 @@ const Crawler={
 /*
 (async function (){
 	//console.log(await search("test",20,50));
-	console.log(await Crawler.ehentai.search('lol',0,5));
+	console.log(await Crawler.doujinantena.downloadBook('c91af14205ccffc2189a0e654197ed0d'));
 }());
 search:function(input,begin,end,option){
 	return new Promise(async (resolve, reject) => {
