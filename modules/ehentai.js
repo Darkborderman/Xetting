@@ -68,18 +68,14 @@ function getBook(id){
 			let {window} = new JSDOM(body);
 			let $ = jQuery = require('jquery')(window);
 
-			let container=$('#thumbnail-container')[0];
+			let container=$('#taglist')[0];
 			if(container!==undefined){
+				container=container.firstChild.firstChild
 				//get artist
 				let artists=[];
 				let artistsTag=$('#tags')[0].children[3].children[0].children;
 				for(let i=0;i<artistsTag.length;++i)
 					artists.push(artistsTag[i].childNodes[0].nodeValue);
-				//get tags
-				let tags=[];
-				let tagsTag=$('#tags')[0].children[2].children[0].children;
-				for(let i=0;i<tagsTag.length;++i)
-					tags.push(tagsTag[i].childNodes[0].nodeValue);
 
 				//get thumbnails and images
 				let thumbnails=[];
@@ -89,10 +85,10 @@ function getBook(id){
 					thumbnails.push(element.firstElementChild.getAttribute("data-src"));
 				};
 				resolve({
-					"title":$("#info h1")[0].textContent,
+					"title":$("h1")[0].textContent,
 					"artists":artists,
-					"time":$('time')[0].textContent,
-					"tags":tags,
+					"time":$('.gdt2')[0].textContent,
+					"tags":container.getElementsByTagName('a'),
 					//"images":images,
 					"thumbnails":thumbnails,
 					"originUrl":url
@@ -103,6 +99,9 @@ function getBook(id){
 	});
 }
 
+function getBookThumbnails(){
+	
+}
 function downloadBook(id){
 	url=ehentaiBaseURL+"/g/"+id;
 	return new Promise((resolve, reject) => {
