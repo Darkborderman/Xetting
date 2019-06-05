@@ -58,7 +58,7 @@
 
 ### JavaScript也可以寫的很物件導向
 
->>>物件導向只是一種態度<<< By 慣C Jserv
+> 物件導向只是一種態度  By 慣C Jserv
 
 在node.js裡面，我們可以利用`module.exports` 將我們寫好的這些function丟給其他的檔案使用，
 
@@ -80,9 +80,9 @@
 
 然後就是處理request的部分，其實一個http request丟的東西很多，雖然要找到可以用的東西不難，但是一開始還真的不能理解到底要怎麼處理這玩意兒，
 
-基本上前端要有一個對應的東西，可能是表單(<form></form>)之類的互動式元件，他會有個action和method對應到一個路徑和參數的傳遞方式，
+基本上前端要有一個對應的東西，可能是表單(`<form></form>`)之類的互動式元件，他會有個action和method對應到一個路徑和參數的傳遞方式，
 
-而底下可能會有像是<input>的元素，會有一個name，在傳送request的時候，
+而底下可能會有像是`<input>`的元素，會有一個name，在傳送request的時候，
 
 我們就可以從action對應的路徑得到的request的query的東西(name的數值，例如name=source的話，那就是request.query.source這樣)
 
@@ -117,3 +117,5 @@ https://www.nodebeginner.org/index-zh-tw.html
 https://expressjs.com/zh-tw/
 
 大概就先寫這些東西吧，以後想到可能會再加
+
+更新:有些東西會被當作語法顯示，這篇是基於原始碼檔案進行編輯的，如果有奇怪的地方請看原始檔案，造成不便請見諒@@
