@@ -40,8 +40,14 @@ server.get('/result',async function(req,res){
     let querypage = nhentaiPageListMax*(req.query.page - 1);
     console.log(querypage);
     let resultLength = 15;
-    let result = await nhentai.search(req.query.query, querypage, querypage+resultLength-1);
+    // let result = await nhentai.search(req.query.query, querypage, querypage+resultLength-1);
+    // console.log(result);
+    let result =await Crawler.doujinantena.search(req.query.query,querypage,14);
     console.log(result);
+    result.forEach(element => {
+        console.log(element.thubmnail);
+        element.thumbnail='http://140.116.102.103:8080/'+element.thumbnail;
+    });
     res.render('pug/result.pug',{
         result:result
     });
