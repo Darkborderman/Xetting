@@ -8,11 +8,6 @@ const Crawler={
 		bookDetail:nhentai.getBook,
 		downloadBook:nhentai.downloadBook
 	},
-	ehentai:{
-		search:ehentai.search,
-		bookDetail:ehentai.getBook,
-		downloadBook:ehentai.downloadBook
-	},
 	doujinantena:{
 		search:doujinantena.search,
 		bookDetail:doujinantena.getBook,
