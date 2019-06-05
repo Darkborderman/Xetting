@@ -1,5 +1,5 @@
 const nhentai=require(`./nhentai.js`);
-const ehentai=require(`./ehentai.js`);
+//const ehentai=require(`./ehentai.js`);
 const doujinantena=require(`./doujinantena.js`);
 
 const Crawler={
