@@ -23,14 +23,10 @@ server.set("views", path.join(`${__dirname}`, "dist"));
 server.use(express.static('dist'));
 
 server.get('/', function(req, res) {
-    console.log(req);
     res.render('pug/index.pug');
 });
 
 server.get('/result',async function(req,res){
-    console.log(req.query.query);
-    console.log(req.query.source);
-    console.log(req.query.page);
 
     let query = req.query.query;
     if (query === undefined) {
@@ -50,15 +46,22 @@ server.get('/result',async function(req,res){
         console.log(querypage);
         let resultLength = 15;
         let result_nhentai = await Crawler[source[0]].search(query, querypage, querypage+resultLength);
-        //console.log(result_nhentai);
         let result_doujinantena = await Crawler[source[1]].search(query, querypage, querypage+resultLength)
-        //console.log(result_doujinantena);
         let result = result_nhentai.concat(result_doujinantena);
         console.log(result);
         res.render('pug/result.pug',{
             result:result_nhentai
         })
     };
+//     //crawl first 15 book result
+//     let result =await Crawler.doujinantena.search(req.query.query,0,14);
+//     result.forEach(element => {
+//       //since same-origin policy, we use cors-anywhere to get request from doujinantena
+//         element.thumbnail='http://140.116.102.103:8080/'+element.thumbnail;
+//     });
+    res.render('pug/result.pug',{
+        result:result
+    });
 });
 
 server.get('/detail',async function(req,res){

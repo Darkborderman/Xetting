@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/Darkborderman/Xetting#readme",
   "dependencies": {
+    "cors": "^2.8.5",
+    "cors-anywhere": "^0.4.1",
     "express": "^4.16.4",
     "http-server": "^0.11.1",
     "jquery": "^3.4.1",
