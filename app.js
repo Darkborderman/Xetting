@@ -12,6 +12,7 @@ const nhentaiPageListMax = 25;
 
 const nhentai=require(`./modules/nhentai.js`);
 const { Crawler }=require('./modules/crawlerController.js');
+const { Logo }= require('./modules/Logo.js');
 
 const port=3000;
 
@@ -38,35 +39,33 @@ server.get('/result',async function(req,res){
         res.end();
     }
     else {
-        let source = (req.query.source == undefined ? "nhentai": req.query.source);
+        let source = (req.query.source == undefined ? ["nhentai","doujinantena"]: req.query.source);
         let page = (req.query.page == undefined ? 1 : req.query.page);
         if(page < 1) {
             page = 1;
         }
+        console.log(source[0]);
+        console.log(source[1]);
         let querypage = nhentaiPageListMax*(page - 1);
         console.log(querypage);
         let resultLength = 15;
-        let result = await Crawler[source].search(query, querypage, querypage+resultLength);
-        //console.log(result);
-        let temp = [];
-        let row = 5; //slice result into several rows
-        let timeSliced = Math.ceil(resultLength/row);
-        for(i = 0; i < timeSliced; i++){
-            temp.push(result.slice(row*i, row*(i+1)));
-        }
-        console.log(temp);
-        result = temp;
+        let result_nhentai = await Crawler[source[0]].search(query, querypage, querypage+resultLength);
+        //console.log(result_nhentai);
+        let result_doujinantena = await Crawler[source[1]].search(query, querypage, querypage+resultLength)
+        //console.log(result_doujinantena);
+        let result = result_nhentai.concat(result_doujinantena);
+        console.log(result);
         res.render('pug/result.pug',{
-            result:result
-        });
-    }
-    
+            result:result_nhentai
+        })
+    };
 });
 
 server.get('/detail',async function(req,res){
     console.log(req.query.source);
     console.log(req.query.booknumber);
     let source = req.query.source;
+    console.log(source);
     let booknumber = req.query.booknumber;
     let result = await Crawler[source].bookDetail(booknumber);
     console.log(result);
@@ -79,7 +78,6 @@ server.get('/detail',async function(req,res){
         res.render('pug/detail.pug',{
             title:result.title,
             artists:result.artists,
-            time:result.time,
             tags:result.tags,
             thumbnails:result.thumbnails,
             originUrl:result.originUrl,
@@ -94,9 +92,17 @@ server.get('/api/download',async function(req,res){
     let bookNumber=req.query.bookNumber;
     console.log(source);
     console.log(bookNumber);
-    let result=await Crawler.nhentai.downloadBook(parseInt(bookNumber));
+    console.log(typeof(bookNumber));
+    let result = await Crawler[source].downloadBook(bookNumber);
     console.log(result);
     res.json(result);
+});
+
+server.get('/api/',async function(req,res){
+    
+    let logo=Logo[Math.floor(Math.random()*2)];
+    let slogan=`Xetting-Crawler of some image host sites`;
+    res.status(200).send(logo+'\n'+slogan+'\n');
 });
 
 server.listen(port);

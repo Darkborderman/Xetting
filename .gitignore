@@ -1,8 +1,9 @@
 /node_modules/
 /**/.directory
-/**/.swp
+/**/*.swp
 /dist/css/*.css
 /dist/css/*.map
 /dist/pug/*.pug
-
+/dist/js/*.js
+/dist/js/*.map
 *.log
