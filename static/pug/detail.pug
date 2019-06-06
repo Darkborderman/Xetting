@@ -13,7 +13,7 @@ html
       .detail
         .description
           .description-image
-          img(src=thumbnails[0], width='240px')
+          img(referrerpolicy="no-referrer" src=thumbnails[0], width='240px')
           .description-text
             .text-title Title:#{title}
             .text-artist Artists:
@@ -30,5 +30,5 @@ html
           - var i=thumbnails;
           each thumbnail in i
            .image
-              img(src=thumbnail, width='240px')
+              img(referrerpolicy="no-referrer" src=thumbnail, width='240px')
       .sidebar
