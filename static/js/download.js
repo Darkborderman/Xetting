@@ -55,7 +55,7 @@ async function download(array) {
     for (let i = 0; i <= array.length - 1; i++) {
         let fileType = array[i].split(".");
         fileType = fileType[fileType.length - 1];
-        let result = await fetch(array[i]);
+        let result = await fetch(array[i],{referrer:''});
         result = await result.blob();
         r.push(result);
         console.log(`${i} finish`);
