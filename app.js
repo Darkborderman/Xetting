@@ -15,6 +15,7 @@ const { Crawler }=require('./modules/crawlerController.js');
 const { Logo }= require('./modules/Logo.js');
 
 const port=3000;
+const defaultSources = Object.keys(Crawler); //will add more default source as API is done.
 
 //setup pug view direction
 server.set("view engine", "pug");
@@ -27,41 +28,41 @@ server.get('/', function(req, res) {
 });
 
 server.get('/result',async function(req,res){
-
     let query = req.query.query;
+    console.log(query);
     if (query === undefined) {
         res.writeHead(405, {"Content-Type": "text/plain"});
         res.write("405 Method Not Allowed.");
         res.end();
     }
     else {
-        let source = (req.query.source == undefined ? ["nhentai","doujinantena"]: req.query.source);
+        let source = (req.query.source == undefined ? defaultSources: req.query.source.split(','));
         let page = (req.query.page == undefined ? 1 : req.query.page);
         if(page < 1) {
             page = 1;
         }
-        console.log(source[0]);
-        console.log(source[1]);
         let querypage = nhentaiPageListMax*(page - 1);
         console.log(querypage);
         let resultLength = 15;
-        let result_nhentai = await Crawler[source[0]].search(query, querypage, querypage+resultLength);
-        let result_doujinantena = await Crawler[source[1]].search(query, querypage, querypage+resultLength)
-        let result = result_nhentai.concat(result_doujinantena);
+        let result = [];
+        //ensure there is no exception source
+        source.forEach( (element) => {
+            console.log(element);
+            if(!defaultSources.includes(element)) {
+                res.writeHead(404, {"Content-Type": "text/plain"});
+                res.write("404 Source not found.");
+                res.end();
+            }
+        });
+
+        for(let i = 0; i < source.length; i++) {
+            result = result.concat(await Crawler[source[i]].search(query, querypage, querypage+resultLength));
+        }
         console.log(result);
         res.render('pug/result.pug',{
-            result:result_nhentai
+            result:result
         })
     };
-//     //crawl first 15 book result
-//     let result =await Crawler.doujinantena.search(req.query.query,0,14);
-//     result.forEach(element => {
-//       //since same-origin policy, we use cors-anywhere to get request from doujinantena
-//         element.thumbnail='http://140.116.102.103:8080/'+element.thumbnail;
-//     });
-    res.render('pug/result.pug',{
-        result:result
-    });
 });
 
 server.get('/detail',async function(req,res){
