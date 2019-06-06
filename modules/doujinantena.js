@@ -73,10 +73,9 @@ function getBook(id){
 				for(let i=0;i<tagsTag.length;++i)
 					tags.push(tagsTag[i].children[0].textContent.split('(')[0]);
 				
-				let info=$('title')[0].textContent.split(/\[|\]/);
 				resolve({
-					"title":info[2],
-					"artists":info[1],
+					"title":$('title')[0].textContent,
+					"artists":[],
 					"time":null,
 					"tags":tags,
 					"thumbnails":[doujinantenaGalleryURL+"/thumbnail/"+id+".jpg"],
