@@ -9,13 +9,13 @@ const request=require('request');
 const fs=require('fs');
 
 const nhentaiPageListMax = 25;
-const defaultSources = ['nhentai','doujinantena']; //will add more default source as API is done.
 
 const nhentai=require(`./modules/nhentai.js`);
 const { Crawler }=require('./modules/crawlerController.js');
 const { Logo }= require('./modules/Logo.js');
 
 const port=3000;
+const defaultSources = Object.keys(Crawler); //will add more default source as API is done.
 
 //setup pug view direction
 server.set("view engine", "pug");
@@ -63,12 +63,6 @@ server.get('/result',async function(req,res){
             result:result
         })
     };
-//     //crawl first 15 book result
-//     let result =await Crawler.doujinantena.search(req.query.query,0,14);
-//     result.forEach(element => {
-//       //since same-origin policy, we use cors-anywhere to get request from doujinantena
-//         element.thumbnail='http://140.116.102.103:8080/'+element.thumbnail;
-//     });
 });
 
 server.get('/detail',async function(req,res){
