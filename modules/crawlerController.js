@@ -1,6 +1,7 @@
 const nhentai=require(`./nhentai.js`);
 //const ehentai=require(`./ehentai.js`);
 const doujinantena=require(`./doujinantena.js`);
+const wnacg=require(`./wnacg.js`);
 
 const Crawler={
 	nhentai:{
@@ -12,6 +13,11 @@ const Crawler={
 		search:doujinantena.search,
 		bookDetail:doujinantena.getBook,
 		downloadBook:doujinantena.downloadBook
+	},
+	wnacg:{
+		search:wnacg.search,
+		bookDetail:wnacg.getBook,
+		downloadBook:wnacg.downloadBook
 	}
 };
 
@@ -19,8 +25,9 @@ const Crawler={
 //code test area
 /*
 (async function (){
-	//console.log(await search("test",20,50));
-	console.log(await Crawler.doujinantena.downloadBook('c91af14205ccffc2189a0e654197ed0d'));
+	console.log(await Crawler.wnacg.search("lol",0,15));
+	console.log(await Crawler.wnacg.bookDetail('76850'));
+	console.log(await Crawler.wnacg.downloadBook('76850'));
 }());
 search:function(input,begin,end,option){
 	return new Promise(async (resolve, reject) => {
