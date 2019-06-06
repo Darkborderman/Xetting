@@ -1,6 +1,6 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-
+const corsUrl='http://140.116.102.104:25565/';
 const request = require('request');
 
 const doujinantenaPageListMax = 10;
@@ -102,7 +102,7 @@ function downloadBook(id){
 				let pageCnt=container[4].textContent.split(/\/|\)/)[1];
 				for(let i=1;i<=pageCnt;++i){
 					let pageNumStr=("00"+i).slice(-3);
-					result.push(`${doujinantenaGalleryURL}/contents_jpg/${id}/${pageNumStr}.jpg`);
+					result.push(`${corsUrl}${doujinantenaGalleryURL}/contents_jpg/${id}/${pageNumStr}.jpg`);
 				}
 				resolve(result);
 			}

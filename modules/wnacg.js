@@ -1,6 +1,6 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-
+const corsUrl='http://140.116.102.104:25565/';
 const request = require('request');
 
 const wnacgPageListMax = 12;
@@ -103,7 +103,7 @@ function downloadBook(id){
 				matche,
 				result=[];
 			while(match=re.exec(attrText)){
-				result.push(`https:${match[0]}`);
+				result.push(`${corsUrl}https:${match[0]}`);
 			}
 			resolve(result);
 		});
